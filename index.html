@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta name="google-site-verification" content="olKjGOsQmEBzTxB7t8u_hlj72BlCWJwSuMb0OMQNVes" />
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-G1X5CBQCQ5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-        
-  gtag('config', 'G-G1X5CBQCQ5');
-</script>
+    <meta name="google-site-verification" content="olKjGOsQmEBzTxB7t8u_hlj72BlCWJwSuMb0OMQNVes" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G1X5CBQCQ5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-G1X5CBQCQ5');
+    </script>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Links de WhatsApp y QR</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ece5dd; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ece5dd; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .app-container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 450px; width: 100%; margin-top: 30px; }
         h2 { text-align: center; color: #075e54; margin-top: 0; }
         p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 20px; }
@@ -30,7 +27,6 @@
         button.btn-generate { width: 100%; padding: 15px; background-color: #25d366; color: white; border: none; border-radius: 8px; margin-top: 25px; font-size: 16px; cursor: pointer; font-weight: bold; transition: background 0.3s; }
         button.btn-generate:hover { background-color: #128c7e; }
         
-        /* Caja de Resultados */
         .result-box { margin-top: 25px; padding: 20px; background-color: #f9f9f9; border-radius: 10px; border: 2px dashed #25d366; display: none; text-align: center; }
         .link-output { word-break: break-all; background: #e1f5fe; padding: 10px; border-radius: 5px; color: #0056b3; font-size: 14px; margin-bottom: 15px; }
         
@@ -38,6 +34,9 @@
         button.btn-copy:hover { background-color: #054c44; }
         
         #qrcode { margin-top: 20px; display: flex; justify-content: center; padding: 10px; background: white; border-radius: 10px; }
+
+        footer { margin-top: 30px; text-align: center; font-size: 13px; color: #666; width: 100%; max-width: 450px; border-top: 1px solid #d1d7db; padding-top: 15px; padding-bottom: 30px; }
+        footer a { color: #075e54; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -66,9 +65,18 @@
     </div>
 </div>
 
+<footer>
+    <p style="margin-bottom: 8px;"><b>GetChatLink</b> - Herramientas Útiles</p>
+    <div style="display: flex; justify-content: center; gap: 12px;">
+        <a href="https://usecalcs.github.io/calculadora-matrices/">Calculadora de Álgebra</a>
+        <span style="color: #ccc;">|</span>
+        <a href="https://usecalcs.github.io/porcentajes/">Calculadora de Porcentajes</a>
+    </div>
+    <p style="font-size: 10px; margin-top: 12px; opacity: 0.7;">Desarrollado por Dante</p>
+</footer>
+
 <script>
     function generateLink() {
-        // 1. Obtenemos los valores ingresados
         let phone = document.getElementById('phone').value.trim();
         let message = document.getElementById('message').value.trim();
         
@@ -77,25 +85,19 @@
             return;
         }
 
-        // 2. Limpiamos el número por si el usuario puso espacios o signos raros
         phone = phone.replace(/[^0-9]/g, '');
-
-        // 3. Codificamos el texto para que la URL lo entienda (ej: cambia los espacios por %20)
         let encodedMessage = encodeURIComponent(message);
         
-        // 4. Armamos la URL final
         let finalUrl = `https://wa.me/${phone}`;
         if (encodedMessage) {
             finalUrl += `?text=${encodedMessage}`;
         }
 
-        // 5. Mostramos el link en la pantalla
         document.getElementById('generatedLink').innerText = finalUrl;
         document.getElementById('resultBox').style.display = "block";
 
-        // 6. Generamos el Código QR
         let qrContainer = document.getElementById('qrcode');
-        qrContainer.innerHTML = ""; // Limpiamos el QR anterior si el usuario genera otro
+        qrContainer.innerHTML = ""; 
         new QRCode(qrContainer, {
             text: finalUrl,
             width: 150,
